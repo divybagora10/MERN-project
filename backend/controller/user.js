@@ -25,10 +25,11 @@ exports.signUp =async (req,res) => {
     } catch (err) {
         console.log(err.name)
         if (err.name === "ValidationError"){
-            const errors = Object.values(err.errors).map(error => error.message);
+            const e = Object.values(err.errors).map(error => error.message);
+            console.log(err.errors)
             return res.status(400).json({
                 message : "Validation error",
-                error : errors
+                error : e
             })
         }
 
