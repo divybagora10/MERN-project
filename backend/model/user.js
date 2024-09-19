@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const bcrypt = require("bcrypt");
 
 const userSchema = mongoose.Schema({
     name : {
@@ -70,6 +71,31 @@ const userSchema = mongoose.Schema({
 
     },
 
+})
+
+userSchema.pre("save",async function(next){
+    // doubt the parameter accepted by function is what
+
+    try {
+        const user  = this;
+
+        if (user.isModified ("password")){
+            return next();
+        } 
+
+        const hashedPassword = await bcrypt.hash(user.password,12);
+        // 12 is for encrytion level
+    
+        console.log(this);
+        this.password = hashedPassword;
+        // console.log("before saving the document and after the validation");
+        console.log(this)
+        next();
+    } 
+    catch (error) {
+        next(error);
+    }
+   
 })
 
 module.exports = mongoose.model("User" , userSchema);

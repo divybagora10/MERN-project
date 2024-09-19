@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const userRouters = require("./router/user");
 const connectDb = require("./config/db")
+const globalErrorHandler = require("./middleware/globalErrorHandler")
 
 const app = express();
 
@@ -12,7 +13,7 @@ connectDb();
 
 app.use("/auth" ,userRouters);
 
-
+app.use(globalErrorHandler);
 
 
 

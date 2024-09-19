@@ -1,52 +1,60 @@
 const User = require("../model/user");
 
 
-exports.signup = async(req,res) => {
+exports.signup = async(req,res,next) => {
     try {
-        const {name , email , password , phoneNumber} = req.body;
-
+        const {name , email , password , contactDetails} = req.body;
         const existingUser = await User.findOne({email : email});
 
         if (existingUser){
-            return res.status(401).send({message : "user already exits"});
+            const error = new Error("User already exits");
+            error.name = "user exists"
+            error.statusCode = 401
+
+            throw next(error);
         }
 
-        const newuser = new User({
-            name : name,
+        const user = new User ({
+            name : name ,
             email : email,
             password : password,
-            phoneNumber : phoneNumber
+            contactDetails : contactDetails
         })
 
-        await newuser.save();
+        await user.save();
         res.send({message : "user created"});
+        
+    } catch (error) {
+        next(error);
     }
-     catch (error) {
-        if (error.name === "ValidationError"){
-            const errors = Object.values(error.errors).map(err => err.message)
-        }
-    }
+    
 }
 
 exports.login = async (req,res) => {
     try {
         const {email , password} = req.body;
+        const isExisting = await User.findOne({email : email});
 
-        const existinguser = await User.findOne({email:email});
-
-        if (!existinguser){
-            return res.send({message : "User does not exits"});
+        if (!isExisting){
+            const error = new Error ("User not found");
+            error.name = "notFound";
+            error.statusCode = 404;
+            throw next(error);
         }
 
-        const isMatched = password === existinguser.password;
+        // const isMatched = password === isExisting.password;
+        const isMatched = await bcrypt.compare(password , isExisting.password)
 
         if (!isMatched){
-            return res.send({message : "enter a valid password"})
+            const error = new Error("Enter a valid password");
+            error.name = "wrongpass";
+            error.statusCode = 401;
+            throw next(error);
         }
 
-        res.send({message : "user logged in" , data : existinguser});
+        res.status(200).send({message : "User details" , data : isExisting});
+        
     } catch (error) {
-        res.send(error);
+        
     }
-    
 }
