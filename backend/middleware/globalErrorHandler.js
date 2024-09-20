@@ -1,4 +1,3 @@
-const e = require("cors");
 
 const errorHandler = (err, req, res , next) =>{
     let statusCode = err.statusCode || 500;

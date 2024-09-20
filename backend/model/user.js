@@ -79,7 +79,7 @@ userSchema.pre("save",async function(next){
     try {
         const user  = this;
 
-        if (user.isModified ("password")){
+        if (!user.isModified ("password")){
             return next();
         } 
 
