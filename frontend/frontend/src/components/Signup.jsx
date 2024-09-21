@@ -2,10 +2,11 @@ import React, { useEffect } from 'react'
 import {useForm} from 'react-hook-form'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {z} from "zod"
+import { useDispatch, useSelector } from 'react-redux'
+import {  signup } from '../redux/slices/authSlice'
+import axios from 'axios'
 
 const Signup = () => {
-
-    
         const validationSchema = z.object({
             name : z.string().min(1,"name is required").max(30,"name cannot exceed more than 30 words"),
             email : z.string().email("Invalid Email"),
@@ -17,16 +18,37 @@ const Signup = () => {
 
             phoneNumber : z.string().min(1 , "phone number is required")
 
-        })
+        });
+
+        const dispatch = useDispatch();
+
+        const {isLoading , error} = useSelector((state)=> state.auth)
 
         const { register , handleSubmit , formState : {errors} } = useForm({
             resolver : zodResolver(validationSchema)
         });
-        console.log(register)
+  
     
-        const onSubmit = (data)=>{
-            console.log(data);
+        const onSubmit = async (data)=>{
+
+            dispatch(signup(data));
+            // console.log(data)
+            // dispatch(setLoading());
+            // try {
+            //     const response = await axios.post("http://127.0.0.1:3000/auth/signup" , data);
+            //     console.log(response)
+            //     dispatch(setSuccess(response.data));
+            // } catch (error) {
+            //     console.log(error)
+            //     dispatch(setError(error?.response?.data || "Internal server errror"));
+            // }
         }
+
+        useEffect(()=>{
+            if (error){
+                alert(error.message || "");
+            }
+        },[error])
     
         
 
@@ -60,7 +82,7 @@ const Signup = () => {
                     {errors.name && (
                         <p className='text-sm text-red-500 '>{errors.name.message}</p>
                     )}
-                    
+
                 </div>
                 <div>
                     <label htmlFor="" className='font-medium'>Email</label>
@@ -79,14 +101,14 @@ const Signup = () => {
                 </div>
                 <div>
                     <label htmlFor="" className='font-medium'>Contact Number</label>
-                    <input type="number" className='block outline-none border border-gray-700 w-4/5 my-2 rounded p-1'  {...register("number")}  />
+                    <input type="number" className='block outline-none border border-gray-700 w-4/5 my-2 rounded p-1'  {...register("phoneNumber")}  />
 
                     {errors.phoneNumber && (
                         <p className='text-sm text-red-500'>{errors.phoneNumber.message}</p>
                     )}
                 </div>
                 </div>
-                <button className='bg-blue-300 w-[90%] p-2 py-1 rounded my-4 active:bg-blue-800 active:text-white'>Signup</button>
+                <button className='bg-blue-300 w-[90%] p-2 py-1 rounded my-4 active:bg-blue-800 active:text-white'>{isLoading ? "Loading " : "Signup"}</button>
             </form>
         </div>
     </div>

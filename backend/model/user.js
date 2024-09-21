@@ -14,7 +14,7 @@ const userSchema = mongoose.Schema({
                 //     return false;
                 // } // this method is not working 
 
-                return validator.isAlpha(value , "en-US");
+                return validator.isAlpha(value , "en-US",{ignore: " "});
             },
             message : "Name should be in string"
         }

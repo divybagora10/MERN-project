@@ -71,9 +71,11 @@ exports.loginUser = async(req,res,next) => {
             // return res.status(404).send({message : "user does not exist"});
         }
 
-        // const isMatced = await bcrypt.compare(password , isExitsingUser.password);
+        const isMatched = await bcrypt.compare(password , isExitsingUser.password);
         // console.log(isMatced);
-        const isMatched = password === isExitsingUser.password
+        // console.log(isExitsingUser.password)
+        // const isMatched = await bcrypt.compare(password === isExitsingUser.password)
+        // console.log(isMatched);
 
         if (!isMatched){
             const error = new Error("UnAuthorized ");
