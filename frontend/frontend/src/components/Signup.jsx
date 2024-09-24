@@ -3,8 +3,10 @@ import {useForm} from 'react-hook-form'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {z} from "zod"
 import { useDispatch, useSelector } from 'react-redux'
-import {  signup } from '../redux/slices/authSlice'
+import {  signup, signUpUser } from '../redux/slices/authSlice'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+import { setSignin } from '../redux/slices/authSlice'
 
 const Signup = () => {
         const validationSchema = z.object({
@@ -19,10 +21,10 @@ const Signup = () => {
             phoneNumber : z.string().min(1 , "phone number is required")
 
         });
-
+        const navigate = useNavigate();
         const dispatch = useDispatch();
 
-        const {isLoading , error} = useSelector((state)=> state.auth)
+        const {isLoading , error , isSign } = useSelector((state)=> state.auth)
 
         const { register , handleSubmit , formState : {errors} } = useForm({
             resolver : zodResolver(validationSchema)
@@ -30,7 +32,7 @@ const Signup = () => {
   
     
         const onSubmit = async (data)=>{
-
+            dispatch(signUpUser(data))
             dispatch(signup(data));
             // console.log(data)
             // dispatch(setLoading());
@@ -49,7 +51,13 @@ const Signup = () => {
                 alert(error.message || "");
             }
         },[error])
-    
+        
+        useEffect(()=>{
+            if (isSign){
+                // dispatch(setSignin());
+                return navigate("/")
+            }
+        },[isSign]);
         
 
 

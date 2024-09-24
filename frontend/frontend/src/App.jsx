@@ -13,7 +13,7 @@ import { Provider } from 'react-redux'
     return (
       <Provider store = {store}>
 
-      <div className='h-screen flex justify-center items-center'>
+      <div className='h-screen w-screen flex justify-center items-center'>
           <RouterProvider router = {Router}/>
       </div>
       </Provider>

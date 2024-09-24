@@ -1,10 +1,11 @@
 const User = require("../model/user")
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 exports.signUp =async (req,res,next) => {
     try {
             // this key comes from frontend
-        const {name , email , password ,phoneNumber} = req.body;
+        const {name , email , password ,phoneNumber,role} = req.body;
         const existingUser = await User.findOne({email : email});
         const existingConatct = await User.findOne({phoneNumber : phoneNumber})
         // if you dont put validator in model you have to do it here the verification work
@@ -33,6 +34,7 @@ exports.signUp =async (req,res,next) => {
             email : email,
             password : password,
             phoneNumber : phoneNumber,
+            role : role
         }); // data goes to schema and validate the condition or give the error
             // this will throw ValidationError
 
@@ -61,35 +63,70 @@ exports.loginUser = async(req,res,next) => {
     try {
         const {email , password} = req.body;
 
-        const isExitsingUser = await User.findOne({email : email});
+        const isExistingUser = await User.findOne({email : email});
 
-        if (!isExitsingUser){
+        if (!isExistingUser){
             const error = new Error ("User not found");
             error.name = "Notfound";
+            // console.log(error);
             error.statusCode = 404;
-            throw next(error);
+              throw next(error);
             // return res.status(404).send({message : "user does not exist"});
         }
 
-        const isMatched = await bcrypt.compare(password , isExitsingUser.password);
+        const isMatched = await bcrypt.compare(password , isExistingUser.password);
         // console.log(isMatced);
         // console.log(isExitsingUser.password)
         // const isMatched = await bcrypt.compare(password === isExitsingUser.password)
         // console.log(isMatched);
 
         if (!isMatched){
-            const error = new Error("UnAuthorized ");
+            const error = new Error("UnAuthorized user");
             error.name = "Unauthorized";
             error.statusCode = 401;
             throw next(error);
             // return res.status(401).send({message  :"enter a correct password"});
         }
 
-        res.status(200).send({message : "user logged in" , data : isExitsingUser});
+        const token = jwt.sign({id : isExistingUser.id , email : isExistingUser.email ,role : isExistingUser.role} , "your_jwt_secret" , {expiresIn : "1h"});
+        res.status(200).send({message : "user logged in" , data : isExistingUser, token : token });
+        // res.redirect("https://www.instagram.com");
 
 
     } catch (error) {
         // res.status(500).send(error);
         next(error);
+    }
+}
+
+
+
+exports.getAllUsers = async (req,res,next) =>{
+    console.log("APi called")
+    try {
+        const users = await User.find({role : "User"});
+        res.status(200).send({message : "Users fetched" , data : users});
+    } catch (error) {
+        next(error);
+    }
+}
+
+
+
+exports.updateUser = async(req,res,next)=>{
+    try {
+        const id = req.params.id;
+        const isExistingUser = await User.findById(id);
+
+        if (!isExistingUser){
+            const error = new Error("User does not exits");
+            error.name = "Notfound";
+            error.statusCode = 404;
+            throw error;
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(id ,req.body,{new : true});  
+    } catch (error) {
+        
     }
 }
