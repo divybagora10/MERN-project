@@ -46,6 +46,10 @@ const Login = () => {
     dispatch(login(data));
   }
 
+  const handleGoogleLogin = ()=>{
+    window.location.href  = "http://localhost:3000/api/auth/google"
+  }
+
   useEffect(()=>{
       if (isAuth){
         navigate('/profile');
@@ -108,6 +112,11 @@ const Login = () => {
           </div>
           </div>
           </form>
+          <div className='w-full flex items-center justify-center mt-8'>
+            <button type='submit' className=' border-2 p-2 py-1  w-[50%] bg-red-700 text-white
+            active:bg-blue-300'  onClick={handleGoogleLogin}>Login with Google</button>
+          </div>
+
       </div>
     
   )

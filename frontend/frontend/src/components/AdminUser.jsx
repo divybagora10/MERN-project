@@ -7,10 +7,10 @@ import { MdEdit } from "react-icons/md";
 const AdminUser = () => {
   const dispatch = useDispatch();
   const {user} = useSelector((state)=>state.auth);
-  console.log(user)
-  const [data ,setData] = useState(user);
-  console.log(data)
-  console.log(typeof user);
+  // console.log(user)
+
+  // console.log(data)
+  // console.log(typeof user);
 
   useEffect(()=>{
     dispatch(getAllUsers());
@@ -60,7 +60,7 @@ const AdminUser = () => {
 
 
             <tbody>
-               {data.map((item,i) =>{
+               {user?.map((item,i) =>{
                 return (
                   <tr className='text-center'>
                     <td>

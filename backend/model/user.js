@@ -3,6 +3,12 @@ const validator = require("validator");
 const bcrypt = require("bcrypt");
 
 const userSchema = mongoose.Schema({
+    googleId : {
+        type : String,
+        default : null,
+
+    },
+
     name : {
         type : String,
         required : [true , "Name is required"],
@@ -41,11 +47,15 @@ const userSchema = mongoose.Schema({
 
     password : {
         type : String,
-        required : [true , "Password is required"],
+        required : function() {
+            return !this.googleId;
+        },
+        // required : [true , "Password is required"],
         minlength :[8,"password must be of 8 characters"],
         maxlength : [128 ,"password cannot exceed 128 characters"],
         validate : {
             validator : function(value) {
+                if (this.googleId) return true;
                 return validator.isStrongPassword(value ,{
                     minLength : 8,
                     minLowercase : 1,
@@ -61,9 +71,13 @@ const userSchema = mongoose.Schema({
 
     phoneNumber : {
         type : String,
-        required : [true , "Phone number is required"],
+        required : function(){
+            return !this.googleId; 
+        },
+        // required : [true , "Phone number is required"],
         validate : {
             validator : function (value){
+                if (this.googleId) return true;
                 return validator.isMobilePhone(value , "en-IN");
             },
             message : "Please enter a valid phone number"
@@ -91,7 +105,7 @@ userSchema.pre("save",async function(next){
     try {
         const user  = this;
 
-        if (!user.isModified ("password")){
+        if (!user.isModified ("password") || user.googleId){
             return next();
         } 
 

@@ -88,7 +88,7 @@ exports.loginUser = async(req,res,next) => {
             // return res.status(401).send({message  :"enter a correct password"});
         }
 
-        const token = jwt.sign({id : isExistingUser.id , email : isExistingUser.email ,role : isExistingUser.role} , "your_jwt_secret" , {expiresIn : "1h"});
+        const token = jwt.sign({id : isExistingUser.id , email : isExistingUser.email ,role : isExistingUser.role} , process.env.JWT_SECRET , {expiresIn : "1h"});
         res.status(200).send({message : "user logged in" , data : isExistingUser, token : token });
         // res.redirect("https://www.instagram.com");
 

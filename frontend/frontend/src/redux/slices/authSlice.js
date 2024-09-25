@@ -39,10 +39,10 @@ export const getAllUsers= createAsyncThunk (
         console.log("api called")
         try {
             const response = await fetch("http://127.0.0.1:3000/auth/users");
-            // console.log(response);
+            console.log(response);
             const allData = await response.json();
             console.log(allData);
-            console.log(typeof allData.data)
+            // console.log(typeof allData.data)
             return allData;
         }
         catch(error){
@@ -63,7 +63,7 @@ const getRole = () => {
 const initialState = {
     isLoading : false,
     error : null,
-    user : null,
+    user : [],
     // isAuth : false,
     // isAuth : localStorage.getItem("user") ? true : false, // we can stay login by saving data in localStorage
 
