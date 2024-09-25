@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllUsers } from '../redux/slices/authSlice';
+// import { getAllUsers } from '../redux/slices/authSlice';
 import { MdEdit } from "react-icons/md";
+import { getAllUsers } from '../redux/slices/fetchSlice';
 
 
 const AdminUser = () => {
   const dispatch = useDispatch();
-  const {user} = useSelector((state)=>state.auth);
+  const {user} = useSelector((state)=>state.fetch);
   // console.log(user)
 
   // console.log(data)
@@ -62,6 +63,8 @@ const AdminUser = () => {
             <tbody>
                {user?.map((item,i) =>{
                 return (
+                  
+
                   <tr className='text-center'>
                     <td>
                       {JSON.stringify(item.status)}
@@ -79,11 +82,14 @@ const AdminUser = () => {
                     </td>
 
                 
-                  <button>
-                  <MdEdit />
+                    <div>
+                    <button>
+                    <MdEdit />
 
-                  </button>
+                    </button>
+                    </div>
                   </tr>
+                 
 
                 )
                })}

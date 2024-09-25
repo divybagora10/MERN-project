@@ -34,7 +34,8 @@ exports.signUp =async (req,res,next) => {
             email : email,
             password : password,
             phoneNumber : phoneNumber,
-            role : role
+            role : role,
+            lastVisited :[],
         }); // data goes to schema and validate the condition or give the error
             // this will throw ValidationError
 
@@ -88,6 +89,8 @@ exports.loginUser = async(req,res,next) => {
             // return res.status(401).send({message  :"enter a correct password"});
         }
 
+        await User.findOneAndUpdate({email : email}, {$push : {lastVisited : new Date().toLocaleTimeString()}})
+
         const token = jwt.sign({id : isExistingUser.id , email : isExistingUser.email ,role : isExistingUser.role} , process.env.JWT_SECRET , {expiresIn : "1h"});
         res.status(200).send({message : "user logged in" , data : isExistingUser, token : token });
         // res.redirect("https://www.instagram.com");
@@ -102,7 +105,6 @@ exports.loginUser = async(req,res,next) => {
 
 
 exports.getAllUsers = async (req,res,next) =>{
-    console.log("APi called")
     try {
         const users = await User.find({role : "User"});
         res.status(200).send({message : "Users fetched" , data : users});

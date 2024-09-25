@@ -6,7 +6,6 @@ const userSchema = mongoose.Schema({
     googleId : {
         type : String,
         default : null,
-
     },
 
     name : {
@@ -51,7 +50,7 @@ const userSchema = mongoose.Schema({
             return !this.googleId;
         },
         // required : [true , "Password is required"],
-        minlength :[8,"password must be of 8 characters"],
+        // minlength :[8,"password must be of 8 characters"],
         maxlength : [128 ,"password cannot exceed 128 characters"],
         validate : {
             validator : function(value) {
@@ -95,7 +94,8 @@ const userSchema = mongoose.Schema({
         required : [true, "Status is required"],
         enum : [true,false],
         default : true
-    }
+    },
+    lastVisited : [{type : String}]
 
 })
 

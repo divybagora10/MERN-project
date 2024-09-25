@@ -1,0 +1,5 @@
+The user clicks a "Login with Google" button, which triggers the /google route.
+They are redirected to Google to authenticate and grant permissions.
+After authentication, Google redirects the user back to your app at the /google/callback route.
+If authentication is successful, a JWT is generated for the user.
+The user is redirected to the frontend with the JWT in the URL, so it can be used to maintain the session.

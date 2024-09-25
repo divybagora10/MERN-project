@@ -47,7 +47,7 @@ const Login = () => {
   }
 
   const handleGoogleLogin = ()=>{
-    window.location.href  = "http://localhost:3000/api/auth/google"
+      window.location.href  = "http://localhost:3000/api/auth/google"
   }
 
   useEffect(()=>{
@@ -84,10 +84,10 @@ const Login = () => {
               <p className='text-lg font-medium'>password</p>
               <input ref={passRef} type ={inputType ? "password" : "text"} placeholder='password' className='rounded p-2 py-1 mt-[5px] w-full mb-1' {...register("password")} />
               
-              <button type='button' onClick={() =>{
+              <button type='button' className='w-full relative bottom-7 left-[93%] outline-none' onClick={() =>{
                     setInputType(!inputType);
                 }
-              }> {inputType ? <FaEyeSlash className='absolute bottom-60 left-[62.5%] ' /> : <FaEye className='absolute bottom-60 left-[62.5%] ' />}</button>
+              }> {inputType ? <FaEyeSlash  /> : <FaEye c />}</button>
 
              
                     {/* Password Error with fixed height */}
@@ -101,7 +101,7 @@ const Login = () => {
               
           </div>
 
-          <div className='w-full flex items-center justify-center mt-8'>
+          <div className='w-full flex items-center justify-center mt-5'>
             <button type='submit' className=' border-2 p-2 py-1  w-[100%] bg-blue-900 text-white
             active:bg-blue-300'  >{isLoading ? "Loading.." : "Login"}</button>
           </div>
@@ -112,7 +112,7 @@ const Login = () => {
           </div>
           </div>
           </form>
-          <div className='w-full flex items-center justify-center mt-8'>
+          <div className='w-full flex items-center justify-center mt-1'>
             <button type='submit' className=' border-2 p-2 py-1  w-[50%] bg-red-700 text-white
             active:bg-blue-300'  onClick={handleGoogleLogin}>Login with Google</button>
           </div>

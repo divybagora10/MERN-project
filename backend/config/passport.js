@@ -8,6 +8,7 @@ passport.use(new GoogleStrategy ({
     callbackURL : process.env.GOOGLE_CALLBACK_URL
 },
 async(accessToken , refreshToken , profile , done) =>{
+    // console.log(profile);
     try {
         let user = await User.findOne ({googleId : profile.id});
         if (user){
@@ -19,7 +20,8 @@ async(accessToken , refreshToken , profile , done) =>{
             name : profile.displayName || "Google User",
             email : profile.emails[0].value,
             password : "",
-            phoneNumber : ""
+            phoneNumber : "",
+            lastVisited :[],
         })
 
         await user.save();

@@ -105,10 +105,7 @@ const Router = createBrowserRouter([
     //         },
     //     ]
     // },
-    {
-        path :  "*",
-        element : <Navigate to="/signup" />
-    },
+   
 ])
 
 

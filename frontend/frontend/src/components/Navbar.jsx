@@ -35,6 +35,7 @@ const Navbar = () => {
                         <Link to= "/cart">Cart</Link>
                         <Link to= "/profile">Profile</Link>
                         <Link to= "/myOrder">Myorders</Link>
+                       < button onClick={handleLogOut}> <IoIosLogOut size={25} /></button>
                     </div>
                     :
                     <div className='flex gap-5 font-medium'>
