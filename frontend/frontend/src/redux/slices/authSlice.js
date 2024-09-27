@@ -81,9 +81,13 @@ const authSlice = createSlice({
             state.isAuth = false,
             state.role = null,
             state.user= null
+        },
+        loginWithGoogle : (state,action) => {
+            const {token , user , role} = action.payload;
+            state.isAuth = true,
+            state.role = role
         }
-
-    },
+    },  
 
     // this is used to handle async operations
     extraReducers : (builder)=>{
@@ -143,6 +147,6 @@ export const signUpUser = (data) =>{
     }
 }
 
-export   const {setSignin , setLogout} = authSlice.actions;
+export   const {setSignin , setLogout , loginWithGoogle} = authSlice.actions;
 
 export default authSlice.reducer;

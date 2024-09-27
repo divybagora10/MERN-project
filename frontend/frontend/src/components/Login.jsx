@@ -8,6 +8,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import {  useNavigate } from 'react-router-dom';
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
+import { RiLockPasswordFill } from "react-icons/ri";
+
+
 
 // import CircularProgress from '@mui/material/Progress';
 const Login = () => {
@@ -64,36 +68,46 @@ const Login = () => {
 
   return (
   
-      <div className='bg-blue-200 w-[60%] flex flex-col justify-center items-center p-3 rounded shadow-xl'>
+      <div className=' w-[40%] flex flex-col justify-center items-center p-3 rounded shadow-xl border border-stone-500  '>
           <div>
               <img src={myImage} alt=""  className='h-[100px]'/>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className='w-full h-full flex justify-center'>
 
-          <div className='flex flex-col justify-center items-center w-[50%]'>
-            <div className=' w-full h-full  flex flex-col '>
+          <div className='flex flex-col justify-center items-center w-[100%]'>
+            <div className=' w-[70%] h-full  flex flex-col '>
                 <p className='text-lg font-medium'>Email</p>
                 <input type="text" placeholder='Email' className='rounded p-2 py-1 
-                mt-[5px]' {...register("email")}/>
+                mt-[5px] pl-8' {...register("email")}/>
+
+                
                 <p className="text-red-500 text-sm mt-1 min-h-[16px]">
                   {errors.email ? errors.email.message : ""}
                 </p>
+                <MdEmail className='relative bottom-12 ml-2'/>
             </div>
-          <div className=' w-full h-full mt-2 ' >
+          <div className=' w-[70%] h-full ' >
               <p className='text-lg font-medium'>password</p>
-              <input ref={passRef} type ={inputType ? "password" : "text"} placeholder='password' className='rounded p-2 py-1 mt-[5px] w-full mb-1' {...register("password")} />
-              
-              <button type='button' className='w-full relative bottom-7 left-[93%] outline-none' onClick={() =>{
-                    setInputType(!inputType);
-                }
-              }> {inputType ? <FaEyeSlash  /> : <FaEye c />}</button>
+              <input ref={passRef} type ={inputType ? "password" : "text"} placeholder='password' className='rounded p-2 py-1 mt-[5px] w-full mb-2 pl-8 ' {...register("password")} />
 
-             
+              
                     {/* Password Error with fixed height */}
-                    <p className="text-red-500 text-xs min-h-[16px]">
+                    <p className="text-red-500 text-xs  min-h-[16px]">
                       {errors.password ? errors.password.message : ""}
                     </p>
+              <RiLockPasswordFill className='relative bottom-12 ml-2' />
+
+              <button type='button' className=' inline relative bottom-16 left-[93%] outline-none' onClick={() =>{
+                setInputType(!inputType);
+              }
+            }> {inputType ? <FaEyeSlash  /> : <FaEye c />}</button>
+            
+              
+          
+            
+
+             
                  
               {/* {errors.password && (
                 <p className='text-black text-xs  '>{errors.password.message}</p>
@@ -101,8 +115,8 @@ const Login = () => {
               
           </div>
 
-          <div className='w-full flex items-center justify-center mt-5'>
-            <button type='submit' className=' border-2 p-2 py-1  w-[100%] bg-blue-900 text-white
+          <div className='w-[70%] flex items-center justify-center mt-2'>
+            <button type='submit' className=' border-2 p-2 py-1 w-[100%] bg-blue-900 text-white
             active:bg-blue-300'  >{isLoading ? "Loading.." : "Login"}</button>
           </div>
           <div>
@@ -112,9 +126,13 @@ const Login = () => {
           </div>
           </div>
           </form>
-          <div className='w-full flex items-center justify-center mt-1'>
-            <button type='submit' className=' border-2 p-2 py-1  w-[50%] bg-red-700 text-white
+          <div className='w-[70%] flex items-center justify-center mt-2'>
+            <button type='submit' className=' border-2 p-2 py-1  w-[100%] bg-red-700 text-white
             active:bg-blue-300'  onClick={handleGoogleLogin}>Login with Google</button>
+          </div>
+
+          <div className='mt-2'>
+          <p href="" className='text-blue-600 text-end' >forgotten password?</p>
           </div>
 
       </div>

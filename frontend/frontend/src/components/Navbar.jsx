@@ -3,6 +3,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
 import { IoIosLogOut } from "react-icons/io";
 import { setLogout } from '../redux/slices/authSlice';
+import { IoMdLogIn } from "react-icons/io";
+import { FaShoppingCart } from "react-icons/fa";
+
+
 
 
 const Navbar = () => {
@@ -17,7 +21,7 @@ const Navbar = () => {
     }
 
   return (
-    <div className='flex justify-between items-center bg-gray-100 p-4 w-full'>
+    <div className='flex justify-between items-center  bg-white p-4 w-full'>
         <div className='text-3xl font-semibold'>
             LOGO
         </div>
@@ -49,9 +53,14 @@ const Navbar = () => {
                     </div>
                 ) : (
                     <div className='flex gap-5 font-medium'>
-                        <Link to= "/login">Login</Link>
-                        <Link to ="/signup">SignUp</Link>
-                        <Link to ="/cart">Cart</Link>
+                        <Link to= "/login" className='border-2 p-2 py-1 rounded border-gray-700'>Login</Link>
+                        <Link to ="/signup" className='border-2 p-2 py-1 rounded border-gray-700'>SignUp</Link>
+                        <Link to ="/cart" >
+                            <div className='flex gap-1'>
+                                <FaShoppingCart size={25} />
+                                <p>Cart</p>
+                            </div>
+                        </Link>
                     </div>
                 )
             }

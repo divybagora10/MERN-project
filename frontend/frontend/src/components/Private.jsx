@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Outlet, useNavigate } from 'react-router-dom';
+import Navbar from './Navbar';
 
 const Private = ({allowedRole}) => {
    const {isAuth , role}=  useSelector((state)=> state.auth);
@@ -17,7 +18,8 @@ const Private = ({allowedRole}) => {
         }
    },[isAuth , role])
   return (
-    <div>
+    <div className='w-full h-full'>
+        <Navbar/>
         <Outlet/>
     </div>
   )

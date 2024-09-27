@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { setSignin } from '../redux/slices/authSlice';
 import Card from './Card';
-import image1 from "../assets/signup.png"
+import image1 from "../assets/download.jpeg"
 
 const Home = () => {
   const dispatch = useDispatch();
