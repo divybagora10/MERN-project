@@ -6,9 +6,42 @@ export const addProduct = createAsyncThunk(
     'product/addProduct',
     async (data , {rejectWithValue}) =>{
         console.log("API called")
+        console.log(data);
         try {
             const response = await axios.post("http://localhost:3000/api/product",data);
             return response;
+        } catch (error) {
+            return rejectWithValue(error);
+        }
+    }
+)
+
+export const updateProduct = createAsyncThunk(
+    'product/updateProduct',
+    async(data,{rejectWithValue})=>{
+        console.log("api called of update")
+        // console.log(data._id);
+        
+        const id = data.get("_id");
+        console.log(id);
+        try {
+            const response = await axios.put(`http://localhost:3000/api/product/${id}` , data)
+            console.log(response);
+           console.log(data); 
+        } catch (error) {
+            return rejectWithValue(error);
+        }
+    }
+)
+
+export const deleteProduct = createAsyncThunk(
+    'product/deleteProduct',
+    async(data,{rejectWithValue}) => {
+        try {
+            console.log("In delete API")
+            const response = await axios.delete(`http://localhost:3000/api/productdelete/${data._id}`);
+
+            return response.data.message;
         } catch (error) {
             return rejectWithValue(error);
         }
@@ -61,6 +94,30 @@ const productSlice = createSlice({
         .addCase(addProduct.rejected , (state,action)=>{
             state.isLoading= false;
             state.error = action.payload?.response?.data;
+        })
+        .addCase(updateProduct.pending , (state,action)=>{
+            state.isLoading = true,
+            state.isProductAdded = false
+        })
+        .addCase(updateProduct.fulfilled , (state,action)=>{
+            state.isProductAdded = true,
+            state.isLoading = false,
+            state.error= null
+        })
+        .addCase(updateProduct.rejected , (state,action)=>{
+            state.isLoading = false,
+            state.error = action.payload?.response?.data
+        })
+        .addCase(deleteProduct.pending , (state) =>{
+            state.isLoading = true
+        })
+        .addCase(deleteProduct.fulfilled , (state,action) =>{
+            state.isLoading = false,
+            state.error =null
+        })
+        .addCase(deleteProduct.rejected , (state,action) =>{
+            state.isLoading = false,
+            state.error = action.payload?.response?.data
         })
         .addCase(getAllProduct.pending , (state)=>{
             state.isLoading = true

@@ -3,15 +3,24 @@ import { useDispatch, useSelector } from 'react-redux'
 // import { getAllUsers } from '../redux/slices/authSlice';
 import { MdEdit } from "react-icons/md";
 import { getAllUsers } from '../redux/slices/fetchSlice';
+import DataTable from './DataTable';
 
 
 const AdminUser = () => {
   const dispatch = useDispatch();
   const {user} = useSelector((state)=>state.fetch);
-  // console.log(user)
+  console.log("user" , user)
 
   // console.log(data)
   // console.log(typeof user);
+
+  const columns = [
+    {field : "googleId" ,headerName : "Google Id" , width : 130},
+    {field : "name" , headerName : "Name" , width : 120},
+    {field : "role" ,headerName : "Role " , width : 130},
+    {field : "email" , headerName : "email"  ,width : 200},
+    {field : "status" , headerName : "status"  ,width : 130},
+  ]
 
   useEffect(()=>{
     dispatch(getAllUsers());
@@ -30,7 +39,9 @@ const AdminUser = () => {
   // },[])
   return (
     <div >
-        <div className='h-screen w-screen flex flex-col '>
+
+      <DataTable columns = {columns} rows = {user} />
+        {/* <div className='h-screen w-screen flex flex-col '>
 
           <div className='flex justify-center'>
             <h1 className='text-3xl'>Users</h1>
@@ -96,7 +107,7 @@ const AdminUser = () => {
             </tbody>
           </table>
           </div>
-        </div>
+        </div> */}
     </div>
   )
 }
