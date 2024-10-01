@@ -85,6 +85,7 @@ exports.updateProduct = async (req,res,next) =>{
 
 exports.updateProductWithImage = async (req,res,next) =>{
 
+    console.log("In update image API")
     const id = req.params.id;
     const productUrl = req.file.path;
     const reqBody = { ...req.body , productURL : productUrl }

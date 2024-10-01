@@ -34,6 +34,18 @@ export const updateProduct = createAsyncThunk(
     }
 )
 
+export const updateProductWithImage = createAsyncThunk(
+    'product/updatedProductWithImage',
+    async(data,{rejectWithValue})=>{
+        const id = data.get("_id");
+        try {
+            const response = await axios.put(`http://localhost:3000/api/productWithImage/${id}` , data)
+        } catch (error) {
+            return rejectWithValue(error);
+        }
+    }
+)
+
 export const deleteProduct = createAsyncThunk(
     'product/deleteProduct',
     async(data,{rejectWithValue}) => {
@@ -105,6 +117,19 @@ const productSlice = createSlice({
             state.error= null
         })
         .addCase(updateProduct.rejected , (state,action)=>{
+            state.isLoading = false,
+            state.error = action.payload?.response?.data
+        })
+        .addCase(updateProductWithImage.pending , (state,action)=>{
+            state.isLoading = true,
+            state.isProductAdded = false
+        })
+        .addCase(updateProductWithImage.fulfilled , (state,action)=>{
+            state.isProductAdded = true,
+            state.isLoading = false,
+            state.error= null
+        })
+        .addCase(updateProductWithImage.rejected , (state,action)=>{
             state.isLoading = false,
             state.error = action.payload?.response?.data
         })

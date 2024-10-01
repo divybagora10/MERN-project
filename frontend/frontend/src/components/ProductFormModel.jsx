@@ -11,18 +11,31 @@ import { MdCancel } from "react-icons/md";
 
 
 // import { isRejected } from '@reduxjs/toolkit';
+import { updateProductWithImage } from '../redux/slices/productSlice';
 import { addProduct, getAllProduct, updateProduct } from '../redux/slices/productSlice';
 // import { addProduct } from '../redux/slices/productSlice';
 
 const ProductFormModel = ({open,setOpen , row , isUpdate ,setIsUpdate}) => {
   const [isImageUpdate , setIsImageUpdate] = useState(false);
+  const [isImageAvailable , setIsImageAvailable] = useState(false);
     const { register , handleSubmit ,reset } = useForm({});
 
     const {isProductAdded} = useSelector((state)=>state.product)
 
     const dispatch = useDispatch();
-  
 
+    const handleChangeImage = (e)=> {
+      if (e.target.files && e.target.files.length > 0){
+        
+        setIsImageAvailable(true);
+      
+      }
+      else {
+        setIsImageAvailable(false);
+      }
+    }
+  
+    console.log("changed image",isImageAvailable)
     const onSubmit = (data)=>{
         const formData = new FormData();
 
@@ -32,11 +45,18 @@ const ProductFormModel = ({open,setOpen , row , isUpdate ,setIsUpdate}) => {
         formData.append("category",data.category);
         console.log(data.category);
 
-        if (isUpdate){
+        if (isUpdate && isImageAvailable ){
+          formData.append("_id",row._id);
+          formData.append ("productImage" , data.productImage[0]);
+          dispatch(updateProductWithImage(formData));
+        }
+
+        else if (isUpdate){
           formData.append("_id",row._id);
           console.log(formData)
           dispatch(updateProduct(formData));
         }
+        
         else {
           formData.append("productImage",data.productImage[0]);
 
@@ -51,11 +71,12 @@ const ProductFormModel = ({open,setOpen , row , isUpdate ,setIsUpdate}) => {
       if (isProductAdded){
         setOpen(false);
         dispatch(getAllProduct());
+        setIsImageAvailable(false);
       }
     },[isProductAdded]);
 
     useEffect(()=>{
-      if (row ){
+      if (row){
         reset(row);
       }
     },[row, isUpdate]);
@@ -111,7 +132,7 @@ const ProductFormModel = ({open,setOpen , row , isUpdate ,setIsUpdate}) => {
                 <label className='text-sm block '>Image</label>
                 {isUpdate ?
                  (isImageUpdate ? <div className='flex gap-4'>
-                  <input type="file"  className='p-2 py-1 border border-gray-800 outline-none bg-transparent my-3 text-xs' {...register("productImage")} />
+                  <input type="file"  className='p-2 py-1 border border-gray-800 outline-none bg-transparent my-3 text-xs' {...register("productImage")} onChange={(e)=>{handleChangeImage(e)}} />
                   <MdCancel className='mt-2 cursor-pointer' onClick={()=>{
                     setIsImageUpdate(false);
                   }}/>

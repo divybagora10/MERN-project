@@ -17,6 +17,17 @@ import { Provider } from 'react-redux'
           <RouterProvider router = {Router}/>
       </div>
       </Provider>
+      // <div>
+      //   <input type="file" id='fileInput' onChange={(e)=>{
+      //     console.log(e)
+      //     if (e.target.files && e.target.files.length > 0){
+      //       console.log("true");
+      //     }
+      //     else{
+      //       console.log("false");
+      //     }
+      //   }} />
+      // </div>
         
     )
   }
