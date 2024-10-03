@@ -15,6 +15,9 @@ import AdminUser from '../components/AdminUser'
 import MyOrder from '../components/MyOrder'
 import Order from '../components/Order'
 import GoogleAuth from '../components/GoogleAuth'
+import Men from '../components/Men'
+import Women from '../components/Women'
+import Kids from '../components/Kids'
 
 const Router = createBrowserRouter([
    {
@@ -31,6 +34,18 @@ const Router = createBrowserRouter([
             {
                 path : "/googleAuth",
                 element : <GoogleAuth/>
+            },
+            {
+                path : "/men",
+                element : <Men/>
+            },
+            {
+                path : "/women",
+                element : <Women/>
+            },
+            {
+                path : "/kids",
+                element :<Kids/>
             }
         ]
    },

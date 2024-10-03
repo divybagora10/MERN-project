@@ -26,8 +26,8 @@ export const updateProduct = createAsyncThunk(
         console.log(id);
         try {
             const response = await axios.put(`http://localhost:3000/api/product/${id}` , data)
-            console.log(response);
-           console.log(data); 
+            // console.log(response);
+        //    console.log(data); 
         } catch (error) {
             return rejectWithValue(error);
         }
@@ -91,12 +91,15 @@ const productSlice = createSlice({
     name : "productSlice",
     initialState ,
     reducers : {
-
+        setIsProductAdded : (state)=>{
+            state.isProductAdded=false;
+        }
     },
     extraReducers :(builder) => {
         builder
         .addCase(addProduct.pending ,(state)=>{
-            state.isLoading = true
+            state.isLoading = true;
+            state.isProductAdded = false
         })
         .addCase(addProduct.fulfilled , (state,action) =>{
             state.isLoading = false,
@@ -159,5 +162,5 @@ const productSlice = createSlice({
     }
 })
 
-export const {  } = productSlice.actions;
+export const { setIsProductAdded } = productSlice.actions;
 export default productSlice.reducer;

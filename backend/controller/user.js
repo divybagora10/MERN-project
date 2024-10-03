@@ -117,8 +117,9 @@ exports.getAllUsers = async (req,res,next) =>{
 
 exports.updateUser = async(req,res,next)=>{
     try {
-        const id = req.params.id;
-        const isExistingUser = await User.findById(id);
+        const email = req.params.email;
+        const {password} = req.body;
+        const isExistingUser = await User.findOne({email});
 
         if (!isExistingUser){
             const error = new Error("User does not exits");
@@ -126,9 +127,17 @@ exports.updateUser = async(req,res,next)=>{
             error.statusCode = 404;
             throw error;
         }
-
-        const updatedUser = await User.findByIdAndUpdate(id ,req.body,{new : true});  
-    } catch (error) {
         
+        if (password){
+
+            const hashedPassword = await bcrypt.hash(password , 12);
+            req.body = {...req.body , password : hashedPassword};
+        }
+
+        const updatedUser = await User.findOneAndUpdate({email} ,req.body,{new : true});  
+
+        res.status(200).send({message : "User update successfully" , data : updatedUser});
+    } catch (error) {
+        next(error);
     }
 }

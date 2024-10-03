@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdEdit } from "react-icons/md";
 import { MdCancel } from "react-icons/md";
+import { setIsProductAdded } from '../redux/slices/productSlice';
 
 
 // import { isRejected } from '@reduxjs/toolkit';
@@ -20,7 +21,8 @@ const ProductFormModel = ({open,setOpen , row , isUpdate ,setIsUpdate}) => {
   const [isImageAvailable , setIsImageAvailable] = useState(false);
     const { register , handleSubmit ,reset } = useForm({});
 
-    const {isProductAdded} = useSelector((state)=>state.product)
+    const {isProductAdded} = useSelector((state)=>state.product);
+    console.log("productAdded" , isProductAdded) 
 
     const dispatch = useDispatch();
 
@@ -63,8 +65,8 @@ const ProductFormModel = ({open,setOpen , row , isUpdate ,setIsUpdate}) => {
           dispatch(addProduct(formData));
         }
         // console.log(data.productImage[0]); 
-        console.log(data);
-
+       
+        // dispatch(setIsProductAdded());
     }
 
     useEffect(()=>{
@@ -81,6 +83,7 @@ const ProductFormModel = ({open,setOpen , row , isUpdate ,setIsUpdate}) => {
       }
     },[row, isUpdate]);
 
+   
   return (
     <div>
         <Modal

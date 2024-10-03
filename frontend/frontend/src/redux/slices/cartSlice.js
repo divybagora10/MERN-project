@@ -10,16 +10,23 @@ const initialState = {
 }
 
 const cartSlice = createSlice({
-    name : "productSlice",
+    name : "cartSlice",
     initialState ,
     reducers : {
         addToCart : (state , action) =>{
             state.cartItem.push(action.payload);
             localStorage.setItem("cart" , JSON.stringify(state.cartItem))
+        },
+        removeFromCart : (state ,action) => {
+           state.cartItem =  state.cartItem.filter((item)=>{
+                return item._id !== action.payload;
+            })
+            localStorage.removeItem("cart");
+            localStorage.setItem("cart",JSON.stringify(state.cartItem));
         }
     },
     
 })
 
-export const { addToCart } = cartSlice.actions;
+export const { addToCart ,  removeFromCart} = cartSlice.actions;
 export default cartSlice.reducer;

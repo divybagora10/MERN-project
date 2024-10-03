@@ -5,18 +5,20 @@ import { IoIosLogOut } from "react-icons/io";
 import { setLogout } from '../redux/slices/authSlice';
 import { IoMdLogIn } from "react-icons/io";
 import { FaShoppingCart } from "react-icons/fa";
-// import { styled } from '@mui/material/styles';
-// import IconButton from '@mui/material/IconButton';
-// import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { styled } from '@mui/material/styles';
+import IconButton from '@mui/material/IconButton';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import Badge from '@mui/material/Badge';
 
-// const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
-//   '& .MuiBadge-badge': {
-//     right: -3,
-//     top: 13,
-//     border: `2px solid ${theme.palette.background.paper}`,
-//     padding: '0 4px',
-//   },
-// }));
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+    '& .MuiBadge-badge': {
+      right: -3,
+      top: 13,
+      border: `2px solid ${theme.palette.background.paper}`,
+      padding: '0 4px',
+    },
+  }));
 
 
 
@@ -26,6 +28,7 @@ const Navbar = () => {
     // console.log(role)
     // console.log(isAuth)
     const  dispatch = useDispatch();
+    const {cartItem} = useSelector((state)=> state.cart)
 
     const handleLogOut = ()=>{
         localStorage.removeItem("token");
@@ -33,7 +36,7 @@ const Navbar = () => {
     }
 
   return (
-    <div className='flex justify-between items-center  bg-white p-4 w-full'>
+    <div className='flex justify-between items-center bg-white p-4 w-full sticky top-0 z-50 '>
         <div className='text-3xl font-semibold'>
             LOGO
         </div>
@@ -42,20 +45,32 @@ const Navbar = () => {
             <input type="text" placeholder='Search...' className='p-2 border border-gray-700 outline-none'  />
         </div>
 
-        <div>
+        <div>   
 
             {
                 isAuth ? (
                     role === "User" ? 
-                    <div className='flex gap-5 font-medium'>
+                    <div className='flex items-center justify-center gap-5 font-medium text-lg'>
                         <Link to="/" >Home</Link>
-                        <Link to= "/cart">Cart</Link>
+                        
                         <Link to= "/profile">Profile</Link>
                         <Link to= "/myOrder">Myorders</Link>
+
+                        <Link to ="/cart" >
+                            <div className='flex gap-1'>
+                            <IconButton aria-label="cart">
+                            <StyledBadge badgeContent={cartItem.length} color="secondary">
+                                <ShoppingCartIcon style={{ width: '30px', height: '30px' }} />
+                            </StyledBadge>
+                            </IconButton>
+                                {/* <FaShoppingCart size={25} /> */}
+                                {/* <p>Cart</p> */}
+                            </div>
+                        </Link>
                        < button onClick={handleLogOut}> <IoIosLogOut size={25} /></button>
                     </div>
                     :
-                    <div className='flex gap-5 font-medium   '>
+                    <div className='flex gap-5 font-medium text-lg  '>
                        <div className='hover:bg-gray-300  hover:rounded p-1'>
                             <Link to="/" className='hover:bg-gray-300  hover:rounded '>Home</Link>
                        </div>
@@ -75,7 +90,7 @@ const Navbar = () => {
                             >
                             Users
                         </NavLink>
-                       <div className='hover:bg-gray-300  hover:rounded p-1'>
+                       <div className='hover:bg-gray-300  hover:rounded p-1 '>
                         <Link to="/adminProduct">Products</Link>
 
                        </div>
@@ -91,18 +106,18 @@ const Navbar = () => {
                        <button onClick={handleLogOut}> <IoIosLogOut size={25} /></button>
                     </div>
                 ) : (
-                    <div className='flex gap-5 font-medium'>
-                        <Link to= "/login" className='border-2 p-2 py-1 rounded border-gray-700'>Login</Link>
+                    <div className='flex gap-5 items-center font-medium'>
+                        <Link to= "/login" className='border-2 p-2 py-1 rounded border-gray-700 '>Login</Link>
                         <Link to ="/signup" className='border-2 p-2 py-1 rounded border-gray-700'>SignUp</Link>
                         <Link to ="/cart" >
                             <div className='flex gap-1'>
-                            {/* <IconButton aria-label="cart">
-                            <StyledBadge badgeContent={4} color="secondary">
-                                <ShoppingCartIcon />
+                            <IconButton aria-label="cart">
+                            <StyledBadge badgeContent={cartItem.length} color="secondary">
+                                <ShoppingCartIcon style={{ width: '30px', height: '30px' }} />
                             </StyledBadge>
-                            </IconButton> */}
-                                <FaShoppingCart size={25} />
-                                <p>Cart</p>
+                            </IconButton>
+                                {/* <FaShoppingCart size={25} /> */}
+                                {/* <p>Cart</p> */}
                             </div>
                         </Link>
                     </div>
