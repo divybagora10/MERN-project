@@ -39,12 +39,14 @@ app.use("/uploads",express.static(path.join(__dirname , "uploads")));
 app.use("/auth" ,userRouters);
 app.use("/api/auth",authRoutes);
 app.use("/api" , productRoutes);
-
-app.use(globalErrorHandler);
-
 app.get('/' , (req,res)=>{
     res.send("hello divy");
 })
+
+
+
+app.use(globalErrorHandler);
+
 
 
 
