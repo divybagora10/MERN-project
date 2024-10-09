@@ -11,6 +11,9 @@ import { FaEyeSlash } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
 
+import { ToastContainer, toast } from 'react-toastify';
+
+
 
 
 // import CircularProgress from '@mui/material/Progress';
@@ -48,6 +51,7 @@ const Login = () => {
   const onSubmit = (data)=>{
     console.log(data)
     dispatch(login(data));
+  
   }
 
   const handleGoogleLogin = ()=>{
@@ -56,20 +60,31 @@ const Login = () => {
 
   useEffect(()=>{
       if (isAuth){
+        toast.success("Login successfully" , {
+          autoClose : 3000
+        });
         navigate('/profile');
       }
   },[isAuth]);
-//   useEffect(()=>{
-//     if (error){
-//         alert(error || "unknown error");
-//     }
-// },[error])
+
+  // useEffect(()=>{
+  //   if (isAuth){
+     
+  //   }
+  // },[isAuth]);
+  useEffect(()=>{
+    if (error){
+        toast.error ("Login unsuccessful" , {
+          autoClose : 3000,
+        })
+    }
+},[error])
 
 
   return (
 
     <div  className='h-[100vh] w-screen flex justify-center items-center'>
-
+        
       <div className=' w-[40%] flex flex-col justify-center items-center p-3 rounded shadow-xl border border-stone-500  '>
           <div>
               <img src={myImage} alt=""  className='h-[100px]'/>
