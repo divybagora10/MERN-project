@@ -12,16 +12,16 @@ const CartCard = ({product}) => {
     }
     
    return (
-    <div className='flex flex-col justify-center items-center  bg-blue-300 p-2 rounded-lg '>
+    <div className='flex flex-col justify-center items-center  bg-blue-300 p-2 rounded-lg w-[70%]'>
         <div className="w-[70%]">
             <img src={`http://localhost:3000/${product.productURL}`} alt="" />
         </div>
         
         <p className='mt-2'>{product.name}</p>
-        <p>${product.price}</p>
+        <p>₹{product.price}</p>
         <div className='mt-3 flex justify-between w-full '>
-            <button className='border-2 border-gray-600 p-2 py-1 '>Buy Now</button>
-            <button className='border-2 border-gray-600 p-2 py-1' 
+            <button className='border-2 border-gray-600 p-2 py-1 rounded '>Buy Now</button>
+            <button className='border-2 border-gray-600 p-2 py-1 rounded' 
                  onClick={()=>{
                     handleRemoveItem(product)
                   }}

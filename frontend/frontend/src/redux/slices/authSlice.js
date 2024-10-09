@@ -42,6 +42,19 @@ const getRole = () => {
     }
     return null;
 }
+
+const getUserdetails = ()=>{
+    const token = localStorage.getItem("token");
+    if (token){
+        const decodedToken = jwtDecode(token);
+        const details = {
+            username : decodedToken.email,
+            user_id : decodedToken.id
+        }
+        return details;
+    }
+    return null;
+}
 const initialState = {
     isLoading : false,
     error : null,
@@ -54,7 +67,8 @@ const initialState = {
     isAuth : localStorage.getItem("token") ? true : false ,
     role : getRole(),
     // role : null,
-    isSign : false
+    isSign : false,
+    userDetails : getUserdetails()
 }
 
 const authSlice = createSlice({

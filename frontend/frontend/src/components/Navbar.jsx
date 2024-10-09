@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link ,NavLink} from 'react-router-dom';
 import { IoIosLogOut } from "react-icons/io";
@@ -9,6 +9,7 @@ import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Badge from '@mui/material/Badge';
+import TemporaryDrawer from './TemporaryDrawer';
 
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -35,6 +36,7 @@ const Navbar = () => {
         dispatch(setLogout());
     }
 
+    const [open , setOpen] = useState(false);
   return (
     <div className='flex justify-between items-center bg-white p-4 w-full sticky top-0 z-50 '>
         <div className='text-3xl font-semibold'>
@@ -99,14 +101,16 @@ const Navbar = () => {
                         <Link to="/adminOrder">Orders</Link>
                        </div>
                        <div className='hover:bg-gray-300  hover:rounded p-1'>
-
-                        <Link to= "/profile">Profile</Link>
+                            <button onClick={()=> setOpen(true)}>Profile</button>
+                        {/* <Link to= "/profile">Profile</Link> */}
                        </div>
 
                        <button onClick={handleLogOut}> <IoIosLogOut size={25} /></button>
+                       <TemporaryDrawer open={open} setOpen = {setOpen}/>
                     </div>
                 ) : (
                     <div className='flex gap-5 items-center font-medium'>
+                        <Link to="/" className='hover:bg-gray-300  hover:rounded '>Home</Link>
                         <Link to= "/login" className='border-2 p-2 py-1 rounded border-gray-700 '>Login</Link>
                         <Link to ="/signup" className='border-2 p-2 py-1 rounded border-gray-700'>SignUp</Link>
                         <Link to ="/cart" >
@@ -120,6 +124,8 @@ const Navbar = () => {
                                 {/* <p>Cart</p> */}
                             </div>
                         </Link>
+
+                       
                     </div>
                 )
             }

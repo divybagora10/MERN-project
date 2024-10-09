@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdEdit } from "react-icons/md";
 import { MdCancel } from "react-icons/md";
-import { setIsProductAdded } from '../redux/slices/productSlice';
+
 
 
 // import { isRejected } from '@reduxjs/toolkit';

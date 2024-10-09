@@ -42,6 +42,10 @@ app.use("/api" , productRoutes);
 
 app.use(globalErrorHandler);
 
+app.length('/' , (req,res)=>{
+    res.send("hello divy");
+})
+
 
 
 app.listen(3000, ()=>{

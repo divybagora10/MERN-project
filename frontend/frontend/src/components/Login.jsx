@@ -67,7 +67,9 @@ const Login = () => {
 
 
   return (
-  
+
+    <div  className='h-screen w-screen flex justify-center items-center'>
+
       <div className=' w-[40%] flex flex-col justify-center items-center p-3 rounded shadow-xl border border-stone-500  '>
           <div>
               <img src={myImage} alt=""  className='h-[100px]'/>
@@ -78,30 +80,30 @@ const Login = () => {
           <div className='flex flex-col justify-center items-center w-[100%]'>
             <div className=' w-[70%] h-full  flex flex-col '>
                 <p className='text-lg font-medium'>Email</p>
-                <input type="text" placeholder='Email' className='rounded p-2 py-1 
-                mt-[5px] pl-8' {...register("email")}/>
+                <input type="text" placeholder='Email' className='rounded p-2  
+                mt-[5px] pl-8 ' {...register("email")}/>
 
                 
                 <p className="text-red-500 text-sm mt-1 min-h-[16px]">
                   {errors.email ? errors.email.message : ""}
                 </p>
-                <MdEmail className='relative bottom-12 ml-2'/>
+                <MdEmail className='relative bottom-[52px] ml-2 ' size={18}/>
             </div>
           <div className=' w-[70%] h-full ' >
               <p className='text-lg font-medium'>password</p>
-              <input ref={passRef} type ={inputType ? "password" : "text"} placeholder='password' className='rounded p-2 py-1 mt-[5px] w-full mb-2 pl-8 ' {...register("password")} />
+              <input ref={passRef} type ={inputType ? "password" : "text"} placeholder='password' className='rounded p-2 mt-[5px] w-full mb-2 pl-8 ' {...register("password")} />
 
               
                     {/* Password Error with fixed height */}
-                    <p className="text-red-500 text-xs  min-h-[16px]">
+                    <p className="text-red-500 text-sm  min-h-[16px]">
                       {errors.password ? errors.password.message : ""}
                     </p>
-              <RiLockPasswordFill className='relative bottom-12 ml-2' />
+              <RiLockPasswordFill className='relative bottom-[53px] ml-2' size={18}/>
 
-              <button type='button' className=' inline relative bottom-16 left-[93%] outline-none' onClick={() =>{
+              <button type='button' className=' inline relative bottom-[74px] left-[93%] outline-none' onClick={() =>{
                 setInputType(!inputType);
               }
-            }> {inputType ? <FaEyeSlash  /> : <FaEye c />}</button>
+            }> {inputType ? <FaEyeSlash  /> : <FaEye />}</button>
             
               
           
@@ -116,8 +118,8 @@ const Login = () => {
           </div>
 
           <div className='w-[70%] flex items-center justify-center mt-2'>
-            <button type='submit' className=' border-2 p-2 py-1 w-[100%] bg-blue-900 text-white
-            active:bg-blue-300'  >{isLoading ? "Loading.." : "Login"}</button>
+            <button type='submit' className=' border-2 p-2 w-[100%] bg-blue-900 text-white
+            active:bg-blue-300 text-lg font-medium'  >{isLoading ? "Loading.." : "Login"}</button>
           </div>
           <div>
             <p className={`text-center font-medium ${user && 'text-zinc-200' || myError && 'text-red-600'} *:
@@ -127,8 +129,8 @@ const Login = () => {
           </div>
           </form>
           <div className='w-[70%] flex items-center justify-center mt-2'>
-            <button type='submit' className=' border-2 p-2 py-1  w-[100%] bg-red-700 text-white
-            active:bg-blue-300'  onClick={handleGoogleLogin}>Login with Google</button>
+            <button type='submit' className=' border-2 p-2   w-[100%] bg-red-700 text-white
+            active:bg-blue-300 text-lg font-medium'  onClick={handleGoogleLogin}>Login with Google</button>
           </div>
 
           <div className='mt-2'>
@@ -137,6 +139,8 @@ const Login = () => {
 
       </div>
     
+    </div>
+  
   )
 }
 

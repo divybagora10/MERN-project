@@ -8,12 +8,19 @@
 import { Provider } from 'react-redux'
   import store from './redux/store'
   import Navbar from './components/Navbar'
+import Tempdr from './components/Tempdr'
+
 
   function App() {
+    const [open , setOpen] = useState(false);
     
     return (
+      // <div>
+      //   <button onClick={()=> setOpen(true)}>click me </button>
+      //   <Tempdr open = {open} setOpen = {setOpen}/>
+      // </div>
       <Provider store = {store}>
-      <div className=' w-screen flex justify-center items-center'>
+      <div className='  w-screen flex justify-center items-center'>
           <RouterProvider router = {Router}/>
       </div>
       </Provider>

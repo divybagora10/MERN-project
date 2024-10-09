@@ -74,6 +74,8 @@ const Signup = () => {
     // }
 
   return (
+    <div className='h-screen w-screen flex justify-center items-center'>
+
     <div className='flex w-4/5 h-4/5 justify-between items-center bg-white rounded shadow-2xl'>
         <div className='w-1/2'>
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQX9A5dXy1TroyyQPqIauBbN03gwOgXLjFNSjE-sKs8AyAWjmtnaWGI2L4SdcHdYbG1C20&usqp=CAU" alt="" className='w-full' />
@@ -119,6 +121,7 @@ const Signup = () => {
                 <button className='bg-blue-300 w-[90%] p-2 py-1 rounded my-4 active:bg-blue-800 active:text-white'>{isLoading ? "Loading " : "Signup"}</button>
             </form>
         </div>
+    </div>
     </div>
   )
 }
