@@ -42,7 +42,7 @@ app.use("/api" , productRoutes);
 
 app.use(globalErrorHandler);
 
-app.length('/' , (req,res)=>{
+app.get('/' , (req,res)=>{
     res.send("hello divy");
 })
 
