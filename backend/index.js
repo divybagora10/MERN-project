@@ -6,6 +6,7 @@ const connectDb = require("./config/db");
 const globalErrorHandler = require("./middleware/globalErrorHandler");
 const productRoutes = require("./router/product");
 const path = require("path");
+const Order = require("./model/order");
 
 
 // -- for google auth
@@ -14,6 +15,8 @@ const passport = require("passport");
 const session = require("express-session");
 require("dotenv").config();
 require("./config/passport");
+
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY) 
 
 const app = express();
 
