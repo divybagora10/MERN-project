@@ -74,7 +74,14 @@ const Navbar = () => {
                     :
                     <div className='flex gap-5 font-medium text-lg  '>
                        <div className='hover:bg-gray-300  hover:rounded p-1'>
-                            <Link to="/" className='hover:bg-gray-300  hover:rounded '>Home</Link>
+                       <NavLink
+                            to="/"
+                                className={({ isActive }) =>
+                            isActive ? 'bg-gray-200 rounded px-1 py-1' : 'hover:bg-gray-300 hover:rounded p-1'
+                            }
+                            >
+                            Home
+                        </NavLink>
                        </div>
                        <div className='hover:bg-gray-300  hover:rounded p-1'>
 

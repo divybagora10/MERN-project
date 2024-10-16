@@ -12,6 +12,8 @@ import { MdEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
 
 import { ToastContainer, toast } from 'react-toastify';
+import PasswordModel from './PasswordModel';
+import OtpAuth from './OtpAuth';
 
 
 
@@ -47,6 +49,8 @@ const Login = () => {
   }
   const passRef = useRef(null);
   const [inputType , setInputType] = useState(true);
+  const [open, setOpen] = React.useState(false);
+  const [openOtp , setOpenOtp] = React.useState(false);
  
   const onSubmit = (data)=>{
     console.log(data)
@@ -56,6 +60,10 @@ const Login = () => {
 
   const handleGoogleLogin = ()=>{
       window.location.href  = "http://localhost:3000/api/auth/google"
+  }
+
+  const handlePassChange = ()=>{
+    setOpen(true);
   }
 
   useEffect(()=>{
@@ -149,7 +157,11 @@ const Login = () => {
           </div>
 
           <div className='mt-2'>
-          <p href="" className='text-blue-600 text-end' >forgotten password?</p>
+        <button href="" className='text-blue-600 text-end' 
+        onClick={handlePassChange} >forgotten password?</button>
+
+        <PasswordModel open = {open} setOpen = {setOpen} openOtp = {openOtp} setOpenOtp = {setOpenOtp}/>
+        <OtpAuth open={openOtp} setOpen={setOpenOtp}/>
           </div>
 
       </div>

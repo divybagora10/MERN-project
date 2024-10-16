@@ -6,6 +6,7 @@ import { getAllUsers } from '../redux/slices/fetchSlice';
 import DataTable from './DataTable';
 
 
+
 const AdminUser = () => {
   const dispatch = useDispatch();
   const {user} = useSelector((state)=>state.fetch);
@@ -20,6 +21,13 @@ const AdminUser = () => {
     {field : "role" ,headerName : "Role " , width : 130},
     {field : "email" , headerName : "email"  ,width : 200},
     {field : "status" , headerName : "status"  ,width : 130},
+    {field : "Edit" , headerName : "Edit" , width : 100  ,renderCell : (params) =>{
+      return (
+        <div className='flex items-center h-full'>
+            <MdEdit size={20} onClick={()=> handleUpdate(params.row)}/>
+        </div>
+      )
+    }},
   ]
 
   useEffect(()=>{

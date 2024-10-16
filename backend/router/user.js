@@ -8,7 +8,7 @@ const router = express.Router();
 router.post("/signup" , userController.signUp);
 
 router.post("/login",userController.loginUser);
-router.put ("/update/:email",userController.updateUser);
+router.put ("/update",userController.updateUser);
 
 router.get("/users",userController.getAllUsers);
 

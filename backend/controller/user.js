@@ -1,5 +1,6 @@
 const User = require("../model/user")
 const bcrypt = require("bcrypt");
+const { query } = require("express");
 const jwt = require("jsonwebtoken");
 
 exports.signUp =async (req,res,next) => {
@@ -92,6 +93,12 @@ exports.loginUser = async(req,res,next) => {
         await User.findOneAndUpdate({email : email}, {$push : {lastVisited : new Date().toLocaleTimeString()}})
 
         const token = jwt.sign({id : isExistingUser.id , email : isExistingUser.email ,role : isExistingUser.role} , process.env.JWT_SECRET , {expiresIn : "1h"});
+       
+        res.cookie("token" , token , {
+            httpOnly : true,
+            secure : false
+        });
+
         res.status(200).send({message : "user logged in" , data : isExistingUser, token : token });
         // res.redirect("https://www.instagram.com");
 
@@ -117,7 +124,9 @@ exports.getAllUsers = async (req,res,next) =>{
 
 exports.updateUser = async(req,res,next)=>{
     try {
-        const email = req.params.email;
+        // const email = req.params.email;
+        console.log("Update Api")
+        const {email} = req.body;
         const {password} = req.body;
         const isExistingUser = await User.findOne({email});
 
@@ -128,13 +137,14 @@ exports.updateUser = async(req,res,next)=>{
             throw error;
         }
         
-        if (password){
+        if (password !== undefined){
 
             const hashedPassword = await bcrypt.hash(password , 12);
             req.body = {...req.body , password : hashedPassword};
         }
+        // req.body = {...req.body , email : updatedEmail};
 
-        const updatedUser = await User.findOneAndUpdate({email} ,req.body,{new : true});  
+        const updatedUser = await User.findOneAndUpdate({email} ,req.body,{new : true ,runValidators  :true , context : "query"});  
 
         res.status(200).send({message : "User update successfully" , data : updatedUser});
     } catch (error) {

@@ -4,7 +4,7 @@ import { act } from "react";
 import {jwtDecode} from "jwt-decode";
 
 export const signup = createAsyncThunk(
-    'auth/signup', // 'auth/signup/pending' || 'auth/signup/fulfilled' || 'auth/signup/rejected'
+    'auth/signup', // 'auth/signup/pending' || 'auth/signup/fulfilled' || 'auth/signup/rejected'    
     async(data , {rejectWithValue}) => {
         try {
             const response = await axios.post("http://127.0.0.1:3000/auth/signup" , data);
@@ -23,6 +23,7 @@ export const login = createAsyncThunk(
         console.log(data)
         try {
             const response = await axios.post("http://localhost:3000/auth/login",data);
+            console.log("response",response);
             // localStorage.setItem("user",JSON.stringify(response.data.data));
             localStorage.setItem("token",response.data.token);
             return response;
@@ -68,7 +69,7 @@ const initialState = {
     role : getRole(),
     // role : null,
     isSign : false,
-    userDetails : getUserdetails()
+    userDetails : null
 }
 
 const authSlice = createSlice({
@@ -132,6 +133,7 @@ const authSlice = createSlice({
             state.role = action.payload.data.data.role;
             state.isAuth = true;
             state.error = null;
+            state.userDetails = getUserdetails();
         })
         .addCase (login.rejected , (state,action)=>{
            console.log(action.payload)

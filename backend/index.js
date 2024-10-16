@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const cookieParser = require('cookie-parser');
 const userRouters = require("./router/user");
 const connectDb = require("./config/db");
 const globalErrorHandler = require("./middleware/globalErrorHandler");
@@ -25,7 +26,7 @@ app.use(session ({
 }))
 
 // const clientId   we dont write clientId directly it can be compromised
-
+app.use(cookieParser());    
 app.use(express.json());
 app.use(express.urlencoded({extended : true}));
 app.use(cors());
