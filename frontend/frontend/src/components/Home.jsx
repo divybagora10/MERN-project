@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { setSignin } from '../redux/slices/authSlice';
+import { setSignin, setUserDetails } from '../redux/slices/authSlice';
 import Card from './Card';
 import image1 from "../assets/download.jpeg"
 import { useSelector } from 'react-redux';
@@ -20,7 +20,7 @@ const Home = () => {
 
   useEffect(()=>{
     dispatch(setSignin());
-    dispatch(getAllProduct())
+    dispatch(getAllProduct());
   },[dispatch])
   return (
 

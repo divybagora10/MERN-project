@@ -5,13 +5,15 @@ import { set } from 'react-hook-form'
 import { FaUser, FaPhone, FaAddressCard, FaCity } from 'react-icons/fa';
 import { removeFromCart } from '../redux/slices/cartSlice';
 import { useDispatch } from 'react-redux'
+import { loadStripe } from '@stripe/stripe-js';
+import axios from 'axios';
 
 
 const Cart = () => {
   const {cartItem} = useSelector((state)=>state.cart)
   const [totalSum , setTotalsum] = useState(0);
 
-  const handleSubmit = (e)=>{
+  const handleSubmit = async(e)=>{
     e.preventDefault();
 
     const formData = new FormData(e.target);
@@ -26,6 +28,17 @@ const Cart = () => {
     }
 
     console.log(userDetails);
+
+    try {
+      const stripe = await loadStripe("pk_test_51Q8hiu077VUKfCgzbfrt6jh6CSe1y0IUuCrgbomY3Zez5tiHhhKyOYsI0s6ygQGIhVkfN6coRxuhtmhB9bIvEhkB00nS8Jzw4o");
+      const response = await axios.post(`http://localhost:3000/create-checkout-session`, userDetails);
+      const result = stripe.redirectToCheckout({ sessionId: response.data.id });
+      if (result.error) {
+        console.log(result.error);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const dispatch = useDispatch();
@@ -74,7 +87,7 @@ const Cart = () => {
       <div className=" bg-gray-100 p-4 rounded">
         <h2 className="text-2xl font-bold mb-4">Checkout</h2>
         <div className="font-bold mb-4">Total: Rs. {totalSum}</div>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={(e)=>handleSubmit(e)} className="space-y-4">
           <div className="flex items-center border p-2 rounded">
             <FaUser className="mr-2" />
             <input

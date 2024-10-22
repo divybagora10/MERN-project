@@ -69,7 +69,7 @@ const initialState = {
     role : getRole(),
     // role : null,
     isSign : false,
-    userDetails : null
+    userDetails : getUserdetails() || null
 }
 
 const authSlice = createSlice({
@@ -163,6 +163,6 @@ export const signUpUser = (data) =>{
     }
 }
 
-export   const {setSignin , setLogout , loginWithGoogle} = authSlice.actions;
+export   const {setSignin , setLogout , loginWithGoogle ,setUserDetails} = authSlice.actions;
 
 export default authSlice.reducer;

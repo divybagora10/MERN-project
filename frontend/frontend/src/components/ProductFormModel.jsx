@@ -61,7 +61,7 @@ const ProductFormModel = ({open,setOpen , row , isUpdate ,setIsUpdate}) => {
         
         else {
           formData.append("productImage",data.productImage[0]);
-
+          
           dispatch(addProduct(formData));
         }
         // console.log(data.productImage[0]); 
@@ -135,6 +135,7 @@ const ProductFormModel = ({open,setOpen , row , isUpdate ,setIsUpdate}) => {
                 <label className='text-sm block '>Image</label>
                 {isUpdate ?
                  (isImageUpdate ? <div className='flex gap-4'>
+
                   <input type="file"  className='p-2 py-1 border border-gray-800 outline-none bg-transparent my-3 text-xs' {...register("productImage")} onChange={(e)=>{handleChangeImage(e)}} />
                   <MdCancel className='mt-2 cursor-pointer' onClick={()=>{
                     setIsImageUpdate(false);

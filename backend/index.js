@@ -48,6 +48,41 @@ app.get('/' , (req,res)=>{
 })
 
 
+app.post('/create-checkout-session' ,async(req,res)=>{
+    const { products , userId , customerName , customerContactNumber , address , pinCode}  = req.body;
+    console.log("payment gatway")
+    const lineItems = products.map((item)=>({
+        price_data: {
+            currency : "inr",
+            product_data : {
+                name : item.name,
+
+            },
+            unit_amount : item.price * 100
+
+        },
+        quantity : 1
+    }
+    ))
+
+    const session = await stripe.checkout.sessions.create({
+        payment_method_types : ["card"],
+        line_items : lineItems,
+        mode : "payment",
+        success_url : "http://localhost:5173/paymentsuccess",
+        cancel_url : "http://localhost:5173/cancelPayment"
+    });
+
+    const order = new Order({
+        product : products , userId , customerName , customerContactNumber , address , pinCode : +pinCode , transactionId : session.id
+    });
+
+    await order.save();
+
+    res.json({id : session.id});
+})
+
+
 
 app.use(globalErrorHandler);
 

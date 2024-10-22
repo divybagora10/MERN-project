@@ -10,7 +10,7 @@ const Private = ({allowedRole}) => {
 
    useEffect(()=>{
         if (!isAuth){
-            return navigate("/login")
+            return navigate("/")
         }
 
         if (!allowedRole.includes(role)){

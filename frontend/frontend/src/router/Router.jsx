@@ -18,6 +18,8 @@ import GoogleAuth from '../components/GoogleAuth'
 import Men from '../components/Men'
 import Women from '../components/Women'
 import Kids from '../components/Kids'
+import SuccessPayment from '../components/SuccessPayment'
+import CancelPayment from '../components/CancelPayment'
 
 const Router = createBrowserRouter([
    {
@@ -46,6 +48,14 @@ const Router = createBrowserRouter([
             {
                 path : "/kids",
                 element :<Kids/>
+            },
+            {
+                path : '/paymentsuccess',
+                element : <SuccessPayment/>
+            },
+            {
+                path : 'cancelPayment',
+                element : <CancelPayment/>
             }
         ]
    },

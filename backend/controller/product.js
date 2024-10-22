@@ -103,6 +103,6 @@ exports.updateProductWithImage = async (req,res,next) =>{
         const updateProduct = await product.findByIdAndUpdate(id , reqBody , {new : true})
         res.status(200).send({message : "Product details updated", data : updateProduct});
     }catch(error){
-
+        next(error);
     }
 }
