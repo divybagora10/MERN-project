@@ -1,10 +1,21 @@
 // const express = require("express");
 
 const product = require("../model/product");
+const NodeCache = require("node-cache");
+// node caching for faster retrievel of data;
+
+const nodeCache = new NodeCache();
 
 exports.getAllProduct = async(req,res,next)=>{
     try {
-        const products = await product.find();
+        let products;
+        if (nodeCache.has("products")){
+            products = JSON.parse(nodeCache.get("products"));
+        }
+        else {
+            products = await product.find();
+            nodeCache.set("products",JSON.stringify(products));
+        }
         res.status(200).send({message : "Products fetched" , data : products});
     } catch (error) {
         next(error);
@@ -64,6 +75,8 @@ exports.updateProduct = async (req,res,next) =>{
        }
 
         const updateProduct = await product.findByIdAndUpdate(id , req.body , {new : true})
+        
+        nodeCache.del("products");
         res.status(200).send({message : "Product details updated", data : updateProduct});
         // console.log(id);
         // const isExistingProduct = await product.findById(id);

@@ -1,7 +1,7 @@
 const express = require("express");
 const upload  = require ("../middleware/multer");
 const {getAllProduct , createProduct, updateProduct, deleteProduct , updateProductWithImage} = require("../controller/product");
-const router = express.Router();
+const   router = express.Router();
 
 
 router.get("/product",getAllProduct);

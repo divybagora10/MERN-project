@@ -7,7 +7,7 @@ const globalErrorHandler = require("./middleware/globalErrorHandler");
 const productRoutes = require("./router/product");
 const path = require("path");
 const Order = require("./model/order");
-
+const NodeCache = require("node-cache");
 
 // -- for google auth
 const authRoutes = require("./router/auth");

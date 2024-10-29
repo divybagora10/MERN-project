@@ -95,7 +95,7 @@ const ProductFormModel = ({open,setOpen , row , isUpdate ,setIsUpdate}) => {
           setIsUpdate(false);
           setIsImageUpdate(false);
         }}
-        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}
       >
         <Sheet
           variant="outlined"

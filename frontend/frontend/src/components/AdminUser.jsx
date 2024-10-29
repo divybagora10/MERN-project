@@ -4,14 +4,23 @@ import { useDispatch, useSelector } from 'react-redux'
 import { MdEdit } from "react-icons/md";
 import { getAllUsers } from '../redux/slices/fetchSlice';
 import DataTable from './DataTable';
+import UserFormModel from './UserFormModel';
 
 
 
 const AdminUser = () => {
   const dispatch = useDispatch();
   const {user} = useSelector((state)=>state.fetch);
-  console.log("user" , user)
+  const {isUpdate} = useSelector((state)=>state.update);
+  // console.log("user" , user)
+  const [open , setOpen] = useState(false);
+  const [row,setRow] = useState ({});
 
+  const handleUpdate = (data)=>{
+    setOpen(true);
+    // setRow(null);
+    setRow(data);
+  }
   // console.log(data)
   // console.log(typeof user);
 
@@ -23,7 +32,7 @@ const AdminUser = () => {
     {field : "status" , headerName : "status"  ,width : 130},
     {field : "Edit" , headerName : "Edit" , width : 100  ,renderCell : (params) =>{
       return (
-        <div className='flex items-center h-full'>
+        <div className='flex items-center justify-center h-full '>
             <MdEdit size={20} onClick={()=> handleUpdate(params.row)}/>
         </div>
       )
@@ -32,7 +41,7 @@ const AdminUser = () => {
 
   useEffect(()=>{
     dispatch(getAllUsers());
-  },[]) 
+  },[isUpdate]) 
 
   // useEffect(async()=>{
   //     const response = await fetch("http://127.0.0.1:3000/auth/users");
@@ -49,73 +58,7 @@ const AdminUser = () => {
     <div >
 
       <DataTable columns = {columns} rows = {user} />
-        {/* <div className='h-screen w-screen flex flex-col '>
-
-          <div className='flex justify-center'>
-            <h1 className='text-3xl'>Users</h1>
-          </div>
-
-          <div >
-
-          <table className=' font-medium border-separate border-spacing-y-4 border-separate-x-1 border w-[100%]'>
-            <thead>
-                <tr>
-                  <th>
-                    Status
-                  </th>
-
-                  <th>
-                    email
-                  </th>
-
-                  <th>
-                    name
-                  </th>
-
-                  <th>
-                    Role
-                  </th>
-                </tr>
-            </thead>
-
-
-            <tbody>
-               {user?.map((item,i) =>{
-                return (
-                  
-
-                  <tr className='text-center'>
-                    <td>
-                      {JSON.stringify(item.status)}
-                    </td>
-                    <td>
-                     {item.name}
-                    </td>
-
-                    <td>
-                      {item.email}
-                    </td>
-
-                    <td>
-                      {item.role}
-                    </td>
-
-                
-                    <div>
-                    <button>
-                    <MdEdit />
-
-                    </button>
-                    </div>
-                  </tr>
-                 
-
-                )
-               })}
-            </tbody>
-          </table>
-          </div>
-        </div> */}
+      <UserFormModel open = {open} setOpen = {setOpen} row={row} setRow = {setRow}/>
     </div>
   )
 }

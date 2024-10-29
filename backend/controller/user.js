@@ -3,6 +3,8 @@ const bcrypt = require("bcrypt");
 const { query } = require("express");
 const jwt = require("jsonwebtoken");
 
+
+
 exports.signUp =async (req,res,next) => {
     try {
             // this key comes from frontend
@@ -90,7 +92,7 @@ exports.loginUser = async(req,res,next) => {
             // return res.status(401).send({message  :"enter a correct password"});
         }
 
-        await User.findOneAndUpdate({email : email}, {$push : {lastVisited : new Date().toLocaleTimeString()}})
+        await User.findOneAndUpdate({email : email}, {$push : {lastVisited : new Date().toLocaleString()}})
 
         const token = jwt.sign({id : isExistingUser.id , email : isExistingUser.email ,role : isExistingUser.role} , process.env.JWT_SECRET , {expiresIn : "1h"});
        
@@ -113,7 +115,7 @@ exports.loginUser = async(req,res,next) => {
 
 exports.getAllUsers = async (req,res,next) =>{
     try {
-        const users = await User.find({role : "User"});
+        const users = await User.find({});
         res.status(200).send({message : "Users fetched" , data : users});
     } catch (error) {
         next(error);
@@ -137,14 +139,14 @@ exports.updateUser = async(req,res,next)=>{
             throw error;
         }
         
-        if (password !== undefined){
+        if (isExistingUser.password !== password){
 
             const hashedPassword = await bcrypt.hash(password , 12);
             req.body = {...req.body , password : hashedPassword};
         }
         // req.body = {...req.body , email : updatedEmail};
 
-        const updatedUser = await User.findOneAndUpdate({email} ,req.body,{new : true ,runValidators  :true , context : "query"});  
+        const updatedUser = await User.findOneAndUpdate({email} ,req.body,{new : true});  
 
         res.status(200).send({message : "User update successfully" , data : updatedUser});
     } catch (error) {
