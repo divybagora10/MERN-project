@@ -3,14 +3,15 @@ import CartCard from './CartCard'
 import { useSelector } from 'react-redux'
 import { set } from 'react-hook-form'
 import { FaUser, FaPhone, FaAddressCard, FaCity } from 'react-icons/fa';
-import { removeFromCart } from '../redux/slices/cartSlice';
+import { removeFromCart, updateQuantity } from '../redux/slices/cartSlice';
 import { useDispatch } from 'react-redux'
 import { loadStripe } from '@stripe/stripe-js';
 import axios from 'axios';
+import { MdCancel } from "react-icons/md";
 
 
 const Cart = () => {
-  const {cartItem} = useSelector((state)=>state.cart)
+  let  {cartItem} = useSelector((state)=>state.cart)
   const [totalSum , setTotalsum] = useState(0);
 
   const handleSubmit = async(e)=>{
@@ -45,12 +46,22 @@ const Cart = () => {
   const handleRemoveItem = (removeItem)=>{
       dispatch(removeFromCart(removeItem._id));
   }
+
+  const handleReduceQuantity= (item)=>{
+      dispatch(updateQuantity({id : item.id , quantity : item.quantity-1}))
+    // cartItem = cartItem.map((item)=>item.id === i.id ? {...item,quantity : item.quantity + 1} : item);
+    // console.log(cartItem)
+  }
+
+  const handleIncreaseQuantity = (item)=>{
+    dispatch(updateQuantity({id : item.id , quantity : item.quantity + 1}));
+  } 
   
 
   useEffect (()=>{
-    const totalPrice = cartItem.reduce((acc,item)=> acc + item.price, 0);
+    const totalPrice = cartItem.reduce((acc,item)=> acc + item.price * item.quantity, 0);
     setTotalsum(totalPrice)
-  },[])
+  },[cartItem])
 
   return (
     <div className=" mx-auto p-4">
@@ -62,22 +73,37 @@ const Cart = () => {
           {cartItem.map((item, index) => (
             <div key={index} className="flex justify-between items-center p-2 border-b">
              
+              <div className='flex w-1/3'>
               <img
                 src={`http://localhost:3000/${item.productURL}`}
                 alt={item.name}
                 className="w-16 h-16 object-cover mr-4"
               />
               
-              <div className="flex-1">
+              <div className=" ">
                 <div>{item.name}</div>
                 <div>Rs. {item.price}</div>
               </div>
-
-              <div>
-                <button className='border-2 p-2 py-1 border-gray-500 rounded active:bg-gray-400' onClick={()=>{
-                    handleRemoveItem(item)
-                  }}>Remove item</button>
               </div>
+
+              <div className='flex'>
+                <button className='bg-gray-300 px-2 mr-2 rounded' disabled ={item.quantity <=1} onClick={()=>{
+                  handleReduceQuantity(item);
+                }}>-</button>
+                <p>{item?.quantity}</p>
+                <button  className='bg-gray-300 px-2 ml-2 rounded' 
+                   onClick={()=>{
+                    handleIncreaseQuantity(item);
+                  }}
+                >+</button>
+              </div>
+              <div>
+                <button onClick={()=>{
+                    handleRemoveItem(item)
+                  }}><MdCancel />
+                </button>
+              </div>
+
             </div>
           ))}
         </div>
